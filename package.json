@@ -1,0 +1,143 @@
+{
+  "name": "ruffle",
+  "displayName": "Ruffle",
+  "description": "Open and play SWF files in VS Code using Ruffle",
+  "version": "0.0.1",
+  "publisher": "RobinMiau",
+  "author": {
+    "name": "RobinMiau",
+    "url": "https://github.com/robinmiau"
+  },
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinmiau/vscode-ruffle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/robinmiau/vscode-ruffle/issues"
+  },
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "flash",
+    "swf",
+    "ruffle",
+    "actionscript",
+    "player",
+    "viewer"
+  ],
+  "activationEvents": [
+    "onLanguage:swf"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "ruffle.player",
+        "displayName": "Ruffle Player",
+        "selector": [
+          {
+            "filenamePattern": "*.swf"
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Ruffle",
+      "properties": {
+        "ruffle.autoplay": {
+          "type": "string",
+          "default": "on",
+          "enum": [
+            "auto",
+            "off",
+            "on"
+          ],
+          "description": "Controls autoplay behavior for SWF files"
+        },
+        "ruffle.allowScriptAccess": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow the SWF to interact with the page through JavaScript (ExternalInterface). Only enable for trusted content."
+        },
+        "ruffle.letterbox": {
+          "type": "string",
+          "default": "fullscreen",
+          "enum": [
+            "fullscreen",
+            "off",
+            "on"
+          ],
+          "description": "Controls how areas outside the movie stage are handled"
+        },
+        "ruffle.contextMenu": {
+          "type": "string",
+          "default": "on",
+          "enum": [
+            "on",
+            "rightClickOnly",
+            "off"
+          ],
+          "description": "Controls when the context menu is shown"
+        },
+        "ruffle.scale": {
+          "type": "string",
+          "default": "showAll",
+          "enum": [
+            "showAll",
+            "noborder",
+            "exactfit",
+            "noscale"
+          ],
+          "description": "Controls the movie's initial stage scale mode"
+        },
+        "ruffle.quality": {
+          "type": "string",
+          "default": "high",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "best"
+          ],
+          "description": "Controls the rendering quality (affects MSAA)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.103.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "copy-webpack-plugin": "^13.0.1",
+    "eslint": "^9.34.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@ruffle-rs/ruffle": "^0.2.0-nightly.2025.8.24"
+  }
+}
