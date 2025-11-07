@@ -28,4 +28,3 @@ updates:
       ruffle-updates:
         patterns:
           - "@ruffle-rs/*"
-
