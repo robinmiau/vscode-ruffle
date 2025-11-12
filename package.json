@@ -120,7 +120,9 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "version": "npm run changelog && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -130,6 +132,7 @@
     "@typescript-eslint/parser": "^8.40.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
+    "conventional-changelog-cli": "^5.0.0",
     "copy-webpack-plugin": "^13.0.1",
     "eslint": "^9.39.0",
     "ts-loader": "^9.5.4",

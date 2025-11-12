@@ -22,6 +22,17 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Generate changelog
+      run: npm run changelog
+
+    - name: Commit changelog
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add CHANGELOG.md
+        git diff --staged --quiet || git commit -m "chore: update changelog for ${{ github.ref_name }}"
+        git push
+
     - name: Package extension
       run: npm run package
 
