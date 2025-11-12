@@ -1,0 +1,75 @@
+name: Auto Release on Ruffle Update
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && github.actor == 'dependabot[bot]'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if Ruffle was updated
+        id: check-ruffle
+        run: |
+          if git log -1 --pretty=%B | grep -q "@ruffle-rs/ruffle"; then
+            echo "ruffle_updated=true" >> $GITHUB_OUTPUT
+            echo "Ruffle was updated in this PR"
+          else
+            echo "ruffle_updated=false" >> $GITHUB_OUTPUT
+            echo "Ruffle was not updated in this PR"
+          fi
+
+      - name: Setup Node.js
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        run: npm ci
+
+      - name: Get current version
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        id: current-version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Bump patch version
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        id: bump-version
+        run: |
+          npm version patch --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Commit version bump
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new_version }}"
+          git push
+
+      - name: Create and push tag
+        if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        run: |
+          git tag "v${{ steps.bump-version.outputs.new_version }}"
+          git push origin "v${{ steps.bump-version.outputs.new_version }}"
