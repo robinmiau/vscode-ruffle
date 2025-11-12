@@ -1,8 +1,8 @@
 # Change Log
 
-All notable changes to this extension will be documented in this file.
+All notable changes to the "Ruffle" extension will be documented in this file.
 
-## [0.0.4](https://github.com/robinmiau/vscode-ruffle/compare/v0.0.3-fix...v0.0.4) (2025-10-04)
+## [0.0.4](https://github.com/robinmiau/vscode-ruffle/compare/v0.0.1...v0.0.4) (2025-10-04)
 
 ### Changed
 - Updated `@ruffle-rs/ruffle` to `0.2.0-nightly.2025.10.1`
