@@ -132,7 +132,7 @@
     "conventional-changelog": "^7.1.1",
     "conventional-changelog-angular": "^8.1.0",
     "copy-webpack-plugin": "^13.0.1",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.1",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.4",
