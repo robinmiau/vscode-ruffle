@@ -319,20 +319,10 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             player.addEventListener("loadedmetadata", () => {
                 const metadata = player.metadata;
                 if (metadata) {
-                    // Set player to use SWF's actual dimensions, but allow CSS to scale it down
+                    // Set player dimensions and allow CSS scaling
                     if (metadata.width && metadata.height) {
                         player.style.width = metadata.width + 'px';
                         player.style.height = metadata.height + 'px';
-
-                        // Check if scaling is needed for large SWFs
-                        const viewportWidth = window.innerWidth;
-                        const viewportHeight = window.innerHeight;
-
-                        if (metadata.width > viewportWidth || metadata.height > viewportHeight) {
-                            // Let CSS handle the scaling with max-width/max-height
-                            player.style.maxWidth = '100%';
-                            player.style.maxHeight = '100vh';
-                        }
                     }
 
                     // Send metadata to extension for status bar
