@@ -121,8 +121,7 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "version": "npm run changelog && git add CHANGELOG.md"
+    "version": "conventional-changelog -p angular && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -130,7 +129,8 @@
     "@types/vscode": "^1.103.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
-    "conventional-changelog-cli": "^5.0.0",
+    "conventional-changelog": "^7.1.1",
+    "conventional-changelog-angular": "^8.1.0",
     "copy-webpack-plugin": "^13.0.1",
     "eslint": "^9.39.0",
     "ts-loader": "^9.5.4",
