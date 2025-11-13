@@ -31,6 +31,31 @@ This extension contributes the following settings:
 - `ruffle.scale`: Scaling mode (`"showAll"`, `"exactFit"`, `"noBorder"`, `"noScale"`)
 - `ruffle.quality`: Rendering quality (`"low"`, `"medium"`, `"high"`, `"best"`)
 
+## Development
+
+### Releasing
+
+This project uses automated releases with GitHub Actions. To create a new release:
+
+1. **Bump the version and generate changelog:**
+   ```bash
+   npm version patch  # or minor, or major
+   ```
+   This automatically runs `npm run changelog` and commits the updated `CHANGELOG.md`
+
+2. **Push the version commit and tag:**
+   ```bash
+   git push && git push --tags
+   ```
+
+3. **Automated workflow:**
+   - The GitHub Actions workflow triggers on the pushed tag
+   - Builds and packages the extension
+   - Creates a GitHub release with the `.vsix` file
+   - Publishes to VS Code Marketplace (if `VSCE_PAT` secret is configured)
+
+**Note:** Dependabot PRs that update `@ruffle-rs/ruffle` automatically trigger a patch version bump and release when merged.
+
 ## Acknowledgments
 
 This extension uses:
