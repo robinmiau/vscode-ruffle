@@ -83,7 +83,7 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             enableScripts: true,
             localResourceRoots: [
                 vscode.Uri.file(path.dirname(document.uri.fsPath)),
-                vscode.Uri.file(path.join(this.context.extensionPath, 'out'))
+                vscode.Uri.file(path.join(this.context.extensionPath, 'dist'))
             ]
         };
 
@@ -235,7 +235,7 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
         const baseDirUri = webview.asWebviewUri(baseDir);
 
         // Get URI for bundled Ruffle files
-        const ruffleDir = vscode.Uri.file(path.join(this.context.extensionPath, 'out', 'ruffle'));
+        const ruffleDir = vscode.Uri.file(path.join(this.context.extensionPath, 'dist', 'ruffle'));
         const ruffleJsUri = webview.asWebviewUri(vscode.Uri.file(path.join(ruffleDir.fsPath, 'ruffle.js')));
 
         return this.generateRufflePlayerHtml(fileDataUri.toString(), baseDirUri.toString(), ruffleJsUri.toString(), {
