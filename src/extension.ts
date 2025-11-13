@@ -55,13 +55,13 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
     /**
      * Called when a custom document is opened
      * @param uri The URI of the document to open
-     * @param openContext Context information about the document opening
+     * @param _openContext Context information about the document opening
      * @param _token Cancellation token
      * @returns A custom document instance
      */
     public async openCustomDocument(
         uri: vscode.Uri,
-        openContext: vscode.CustomDocumentOpenContext,
+        _openContext: vscode.CustomDocumentOpenContext,
         _token: vscode.CancellationToken
     ): Promise<vscode.CustomDocument> {
         return { uri, dispose: () => { } };
@@ -131,7 +131,7 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             try {
                 switch (e.type) {
                     case 'metadata':
-                        this.updateStatusBar(e.metadata, document.uri);
+                        this.updateStatusBar(e.metadata);
                         break;
                     case 'openUrl':
                         if (e.url && typeof e.url === 'string') {
@@ -157,11 +157,10 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
     }
 
     /**
-     * Updates the status bar with SWF metadata and file information
+     * Updates the status bar with SWF metadata
      * @param metadata The SWF metadata from Ruffle
-     * @param fileUri The URI of the SWF file
      */
-    private updateStatusBar(metadata: SwfMetadata, fileUri: vscode.Uri) {
+    private updateStatusBar(metadata: SwfMetadata) {
         try {
             this.statusBarItem.text = this.formatStatusBarText(metadata);
             this.statusBarItem.show();
