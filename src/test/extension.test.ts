@@ -49,8 +49,8 @@ suite('Ruffle Extension Test Suite', () => {
     });
 
     test('Ruffle files should be bundled', () => {
-        const ruffleJsPath = path.join(__dirname, '..', '..', 'out', 'ruffle', 'ruffle.js');
-        assert.ok(fs.existsSync(ruffleJsPath), 'ruffle.js should exist in out/ruffle folder');
+        const ruffleJsPath = path.join(__dirname, '..', '..', 'dist', 'ruffle', 'ruffle.js');
+        assert.ok(fs.existsSync(ruffleJsPath), 'ruffle.js should exist in dist/ruffle folder');
     });
 
     test('Configuration settings should exist with correct types and defaults', () => {
