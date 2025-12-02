@@ -1,3 +1,13 @@
+## [0.1.1](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.0...v0.1.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* add .github directory to .vscodeignore ([42b827b](https://github.com/robinmiau/vscode-ruffle/commit/42b827b78ec933936da11361eed720db479b0360))
+* add paths-ignore for CodeQL analysis to exclude ruffle and node_modules directories ([bbf73d2](https://github.com/robinmiau/vscode-ruffle/commit/bbf73d2fdadb64be038ffcd7c21e03b4232eb56e))
+
+
+
 # [0.1.0](https://github.com/robinmiau/vscode-ruffle/compare/v0.0.4...v0.1.0) (2025-11-13)
 
 
