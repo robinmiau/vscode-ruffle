@@ -140,6 +140,6 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "@ruffle-rs/ruffle": "^0.2.0-nightly.2025.11.1"
+    "@ruffle-rs/ruffle": "^0.2.0-nightly.2025.12.2"
   }
 }
