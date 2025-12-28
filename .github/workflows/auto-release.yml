@@ -5,6 +5,9 @@ on:
     types: [closed]
     branches:
       - main
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
 
 permissions:
   contents: write
@@ -13,20 +16,23 @@ permissions:
 jobs:
   auto-release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.actor == 'dependabot[bot]'
+    if: github.event.pull_request.merged == true && github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Check if Ruffle was updated
         id: check-ruffle
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          if git log -1 --pretty=%B | grep -q "@ruffle-rs/ruffle"; then
+          if echo "$PR_TITLE $PR_BODY" | grep -qiE "(@ruffle-rs/ruffle|ruffle-updates)"; then
             echo "ruffle_updated=true" >> $GITHUB_OUTPUT
-            echo "Ruffle was updated in this PR"
           else
             echo "ruffle_updated=false" >> $GITHUB_OUTPUT
-            echo "Ruffle was not updated in this PR"
           fi
 
       - name: Setup Node.js
@@ -50,13 +56,14 @@ jobs:
         if: steps.check-ruffle.outputs.ruffle_updated == 'true'
         id: bump-version
         run: |
-          npm version patch -m "chore: bump version to %s"
+          npm version patch -m "chore: bump version to %s" --tag-version-prefix="v"
           NEW_VERSION=$(node -p "require('./package.json').version")
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "New version: $NEW_VERSION"
+          echo "new_version=v$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Push changes and tag
         if: steps.check-ruffle.outputs.ruffle_updated == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push
           git push --tags
