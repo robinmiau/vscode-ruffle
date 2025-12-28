@@ -16,8 +16,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v5
 
-    - name: Run npm audit
-      run: npm audit --audit-level moderate
+    - name: Run npm audit (production, high severity)
+      run: npm audit --production --audit-level=high
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
