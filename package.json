@@ -135,11 +135,11 @@
     "eslint": "^9.39.1",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.0",
+    "typescript-eslint": "^8.51.0",
     "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
-    "@ruffle-rs/ruffle": "^0.2.0-nightly.2025.12.2"
+    "@ruffle-rs/ruffle": "^0.2.0-nightly.2025.12.31"
   }
 }
