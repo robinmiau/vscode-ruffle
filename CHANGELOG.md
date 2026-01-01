@@ -1,3 +1,15 @@
+## [0.1.2](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.1...v0.1.2) (2026-01-01)
+
+
+### Bug Fixes
+
+* improve auto-release workflow for Ruffle updates ([4641aac](https://github.com/robinmiau/vscode-ruffle/commit/4641aac0704592b364b3bb18fc9dc52698fc8d4e))
+* update auto-release workflow to trigger on push and improve Ruffle update detection ([9bff5d5](https://github.com/robinmiau/vscode-ruffle/commit/9bff5d547590bd5bb59787f8d0a58d29b8cfff43))
+* update npm audit command to check for high severity vulnerabilities in production ([58755a3](https://github.com/robinmiau/vscode-ruffle/commit/58755a3f11cee5dc74df79969c8222cf5e63f383))
+* upgrade actions/checkout from v5 to v6 in workflow files ([6265cb3](https://github.com/robinmiau/vscode-ruffle/commit/6265cb32b77ce23f6f9344291fdbc83591bbf86d))
+
+
+
 ## [0.1.1](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.0...v0.1.1) (2025-12-02)
 
 
