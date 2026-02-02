@@ -1,9 +1,11 @@
 name: Auto Release on Ruffle Update
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
     paths:
       - 'package.json'
       - 'package-lock.json'
@@ -13,6 +15,7 @@ permissions:
 
 jobs:
   auto-release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,20 +26,20 @@ jobs:
       - name: Check if Ruffle was updated
         id: check-ruffle
         run: |
-          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_USER="${{ github.event.pull_request.user.login }}"
 
-          if echo "$COMMIT_AUTHOR" | grep -qE "(dependabot|dependabot\[bot\])"; then
-            if echo "$COMMIT_MESSAGE" | grep -qiE "(@ruffle-rs/ruffle|ruffle)"; then
+          if echo "$PR_USER" | grep -qE "(dependabot|dependabot\[bot\])"; then
+            if echo "$PR_TITLE" | grep -qiE "(@ruffle-rs/ruffle|ruffle)"; then
               echo "ruffle_updated=true" >> $GITHUB_OUTPUT
-              echo "Ruffle update detected in commit"
+              echo "Ruffle update detected in PR"
             else
               echo "ruffle_updated=false" >> $GITHUB_OUTPUT
-              echo "Dependabot commit but not Ruffle related"
+              echo "Dependabot PR but not Ruffle related"
             fi
           else
             echo "ruffle_updated=false" >> $GITHUB_OUTPUT
-            echo "Not a dependabot commit"
+            echo "Not a dependabot PR"
           fi
 
       - name: Setup Node.js
