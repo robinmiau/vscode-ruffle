@@ -1,3 +1,7 @@
+## [0.1.3](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.2...v0.1.3) (2026-02-02)
+
+
+
 ## [0.1.2](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.1...v0.1.2) (2026-01-01)
 
 

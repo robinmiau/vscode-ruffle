@@ -2,7 +2,7 @@
   "name": "ruffle",
   "displayName": "Ruffle",
   "description": "Open and play SWF files in VS Code using Ruffle",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "RobinMiau",
   "author": {
     "name": "RobinMiau",
