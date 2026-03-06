@@ -12,19 +12,5 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    ignore:
-      - dependency-name: "@types/vscode"
-        versions: ["*"]
-    groups:
-      development-dependencies:
-        dependency-type: "development"
-        patterns:
-          - "@types/*"
-          - "@typescript-eslint/*"
-          - "eslint*"
-          - "typescript"
-          - "webpack*"
-          - "ts-loader"
-      ruffle-updates:
-        patterns:
-          - "@ruffle-rs/*"
+    allow:
+      - dependency-name: "@ruffle-rs/*"
