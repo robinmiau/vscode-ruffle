@@ -130,14 +130,14 @@
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
     "conventional-changelog": "^7.2.0",
-    "conventional-changelog-angular": "^8.3.0",
+    "conventional-changelog-angular": "^8.3.1",
     "copy-webpack-plugin": "^14.0.0",
-    "eslint": "^10.0.2",
+    "eslint": "^10.1.0",
     "ts-loader": "^9.5.4",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1",
-    "webpack": "^5.105.3",
-    "webpack-cli": "^6.0.1"
+    "typescript": "^6.0.0",
+    "typescript-eslint": "^8.58.0",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2"
   },
   "dependencies": {
     "@ruffle-rs/ruffle": "^0.2.0-nightly.2026.4.1"
