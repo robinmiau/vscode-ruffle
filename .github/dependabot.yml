@@ -12,5 +12,5 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    allow:
-      - dependency-name: "@ruffle-rs/*"
+    ignore:
+      - dependency-name: "@types/vscode"
