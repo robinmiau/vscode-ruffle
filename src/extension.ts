@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as crypto from 'crypto';
 import * as vscode from 'vscode';
 
 /**
@@ -19,7 +20,6 @@ interface SwfMetadata {
  */
 interface RuffleConfig {
     autoplay: string;
-    allowScriptAccess: boolean;
     letterbox: string;
     contextMenu: string;
     scale: string;
@@ -41,9 +41,15 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
      */
     public static register(context: vscode.ExtensionContext): vscode.Disposable {
         const provider = new RuffleEditorProvider(context);
+        const keepActive = vscode.workspace.getConfiguration('ruffle').get<boolean>('keepActive', true);
         return vscode.window.registerCustomEditorProvider(
             RuffleEditorProvider.viewType,
-            provider
+            provider,
+            {
+                webviewOptions: {
+                    retainContextWhenHidden: keepActive
+                }
+            }
         );
     }
 
@@ -109,14 +115,18 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             }
         });
 
+        let panelStatusText = '';
+
         webviewPanel.onDidChangeViewState(() => {
             if (webviewPanel.active) {
-                if (this.statusBarItem.text) {
+                if (panelStatusText) {
+                    this.statusBarItem.text = panelStatusText;
                     this.statusBarItem.show();
+                } else {
+                    this.statusBarItem.hide();
                 }
             } else {
                 this.statusBarItem.hide();
-                this.statusBarItem.text = '';
             }
         });
 
@@ -131,7 +141,9 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             try {
                 switch (e.type) {
                     case 'metadata':
-                        this.updateStatusBar(e.metadata);
+                        panelStatusText = this.formatStatusBarText(e.metadata);
+                        this.statusBarItem.text = panelStatusText;
+                        this.statusBarItem.show();
                         break;
                     case 'openUrl':
                         if (e.url && typeof e.url === 'string') {
@@ -154,21 +166,6 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
      */
     private updateWebviewContent(webviewPanel: vscode.WebviewPanel, fileUri: vscode.Uri) {
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview, fileUri);
-    }
-
-    /**
-     * Updates the status bar with SWF metadata
-     * @param metadata The SWF metadata from Ruffle
-     */
-    private updateStatusBar(metadata: SwfMetadata) {
-        try {
-            this.statusBarItem.text = this.formatStatusBarText(metadata);
-            this.statusBarItem.show();
-        } catch (error) {
-            console.error('Ruffle: Error updating status bar:', error);
-            this.statusBarItem.text = 'Ruffle: Error loading metadata';
-            this.statusBarItem.show();
-        }
     }
 
     /**
@@ -223,7 +220,6 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
         // Read current configuration
         const config = vscode.workspace.getConfiguration('ruffle');
         const autoplay = config.get<string>('autoplay', 'on');
-        const allowScriptAccess = config.get<boolean>('allowScriptAccess', false);
         const letterbox = config.get<string>('letterbox', 'fullscreen');
         const contextMenu = config.get<string>('contextMenu', 'on');
         const scale = config.get<string>('scale', 'showAll');
@@ -238,9 +234,10 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
         const ruffleDir = vscode.Uri.file(path.join(this.context.extensionPath, 'dist', 'ruffle'));
         const ruffleJsUri = webview.asWebviewUri(vscode.Uri.file(path.join(ruffleDir.fsPath, 'ruffle.js')));
 
-        return this.generateRufflePlayerHtml(fileDataUri.toString(), baseDirUri.toString(), ruffleJsUri.toString(), {
+        const nonce = crypto.randomBytes(16).toString('base64');
+
+        return this.generateRufflePlayerHtml(fileDataUri.toString(), baseDirUri.toString(), ruffleJsUri.toString(), webview.cspSource, nonce, {
             autoplay,
-            allowScriptAccess,
             letterbox,
             contextMenu,
             scale,
@@ -251,11 +248,12 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
     /**
      * Generates the Ruffle player HTML template
      */
-    private generateRufflePlayerHtml(fileDataUri: string, baseDirUri: string, ruffleJsUri: string, config: RuffleConfig): string {
+    private generateRufflePlayerHtml(fileDataUri: string, baseDirUri: string, ruffleJsUri: string, cspSource: string, nonce: string, config: RuffleConfig): string {
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src ${cspSource} 'nonce-${nonce}' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; worker-src blob: ${cspSource}; connect-src * blob: data:; img-src * blob: data:; media-src * blob: data:;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruffle Player</title>
     <style>
@@ -286,8 +284,8 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
 <body>
     <div id="container"></div>
 
-    <script src="${ruffleJsUri}"></script>
-    <script>
+    <script nonce="${nonce}" src="${ruffleJsUri}"></script>
+    <script nonce="${nonce}">
         const vscode = acquireVsCodeApi();
         let player = null;
 
@@ -339,7 +337,7 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
             player.ruffle().load({
                 url: url,
                 base: "${baseDirUri}/",
-                allowScriptAccess: ${config.allowScriptAccess},
+                allowScriptAccess: true,
                 autoplay: "${config.autoplay}",
                 wmode: "transparent",
                 splashScreen: false,

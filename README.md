@@ -25,17 +25,17 @@ A VS Code extension that provides a custom editor for SWF (Flash) files using [R
 This extension contributes the following settings:
 
 - `ruffle.autoplay`: Control autoplay behavior (`"on"`, `"off"`, `"auto"`)
-- `ruffle.allowScriptAccess`: Allow ActionScript access (`true`/`false`)
 - `ruffle.letterbox`: Letterbox handling (`"fullscreen"`, `"on"`, `"off"`)
 - `ruffle.contextMenu`: Show context menu (`"on"`, `"off"`)
 - `ruffle.scale`: Scaling mode (`"showAll"`, `"exactFit"`, `"noBorder"`, `"noScale"`)
 - `ruffle.quality`: Rendering quality (`"low"`, `"medium"`, `"high"`, `"best"`)
+- `ruffle.keepActive`: Keep the player running when switching tabs, preventing restarts (default: `true`, requires window reload to change)
 
 ## Development
 
 ### Releasing
 
-This project uses automated releases with GitHub Actions. To create a new release:
+To create a new release:
 
 1. **Bump the version and generate changelog:**
    ```bash
@@ -48,13 +48,7 @@ This project uses automated releases with GitHub Actions. To create a new releas
    git push && git push --tags
    ```
 
-3. **Automated workflow:**
-   - The GitHub Actions workflow triggers on the pushed tag
-   - Builds and packages the extension
-   - Creates a GitHub release with the `.vsix` file
-   - Publishes to VS Code Marketplace (if `VSCE_PAT` secret is configured)
-
-**Note:** Dependabot PRs that update `@ruffle-rs/ruffle` automatically trigger a patch version bump and release when merged.
+3. **The GitHub Actions workflow** triggers on the pushed tag, builds and packages the extension, creates a GitHub release with the `.vsix` file, and publishes to VS Code Marketplace (if `VSCE_PAT` secret is configured).
 
 ## Acknowledgments
 

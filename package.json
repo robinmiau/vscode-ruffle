@@ -32,9 +32,6 @@
     "player",
     "viewer"
   ],
-  "activationEvents": [
-    "onLanguage:swf"
-  ],
   "main": "./dist/extension.js",
   "contributes": {
     "customEditors": [
@@ -60,11 +57,6 @@
             "on"
           ],
           "description": "Controls autoplay behavior for SWF files"
-        },
-        "ruffle.allowScriptAccess": {
-          "type": "boolean",
-          "default": false,
-          "description": "Allow the SWF to interact with the page through JavaScript (ExternalInterface). Only enable for trusted content."
         },
         "ruffle.letterbox": {
           "type": "string",
@@ -107,6 +99,11 @@
             "best"
           ],
           "description": "Controls the rendering quality (affects MSAA)"
+        },
+        "ruffle.keepActive": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep the Ruffle player running when switching to another tab, preventing it from restarting. Takes effect after reloading the window."
         }
       }
     }
