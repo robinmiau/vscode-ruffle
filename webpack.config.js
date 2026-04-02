@@ -26,10 +26,13 @@ const extensionConfig = {
         rules: [
             {
                 test: /\.ts$/,
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /src[\/\\]test/],
                 use: [
                     {
-                        loader: 'ts-loader'
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true
+                        }
                     }
                 ]
             }
