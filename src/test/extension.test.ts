@@ -58,11 +58,11 @@ suite('Ruffle Extension Test Suite', () => {
 
         const configTests = [
             { key: 'autoplay', type: 'string', default: 'on' },
-            { key: 'allowScriptAccess', type: 'boolean', default: false },
             { key: 'letterbox', type: 'string', default: 'fullscreen' },
             { key: 'contextMenu', type: 'string', default: 'on' },
             { key: 'scale', type: 'string', default: 'showAll' },
-            { key: 'quality', type: 'string', default: 'high' }
+            { key: 'quality', type: 'string', default: 'high' },
+            { key: 'keepActive', type: 'boolean', default: true }
         ];
 
         for (const test of configTests) {
