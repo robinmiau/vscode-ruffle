@@ -1,3 +1,16 @@
+# [0.2.0](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.4...v0.2.0) (2026-04-02)
+
+
+### Bug Fixes
+
+* add skipLibCheck to compiler options ([cc3659a](https://github.com/robinmiau/vscode-ruffle/commit/cc3659a1ca0570f94168967222d62c1c90d4c173))
+* correct environment variable reference for VSCE_PAT in release workflow ([297b0ba](https://github.com/robinmiau/vscode-ruffle/commit/297b0baa0de93613e8d6d47b50342d3a66ac4a28))
+
+
+### Features
+
+* add workflow_dispatch trigger to release workflow ([a3c3411](https://github.com/robinmiau/vscode-ruffle/commit/a3c3411980a12986384a2c161d35faf1e5f5c08b))
+
 ## [0.1.4](https://github.com/robinmiau/vscode-ruffle/compare/v0.1.3...v0.1.4) (2026-03-06)
 
 
