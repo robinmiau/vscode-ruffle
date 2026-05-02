@@ -61,8 +61,7 @@ suite('Ruffle Extension Test Suite', () => {
             { key: 'letterbox', type: 'string', default: 'fullscreen' },
             { key: 'contextMenu', type: 'string', default: 'on' },
             { key: 'scale', type: 'string', default: 'showAll' },
-            { key: 'quality', type: 'string', default: 'high' },
-            { key: 'keepActive', type: 'boolean', default: true }
+            { key: 'quality', type: 'string', default: 'high' }
         ];
 
         for (const test of configTests) {

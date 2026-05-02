@@ -29,7 +29,6 @@ This extension contributes the following settings:
 - `ruffle.contextMenu`: Show context menu (`"on"`, `"off"`)
 - `ruffle.scale`: Scaling mode (`"showAll"`, `"exactFit"`, `"noBorder"`, `"noScale"`)
 - `ruffle.quality`: Rendering quality (`"low"`, `"medium"`, `"high"`, `"best"`)
-- `ruffle.keepActive`: Keep the player running when switching tabs, preventing restarts (default: `true`, requires window reload to change)
 
 ## Development
 

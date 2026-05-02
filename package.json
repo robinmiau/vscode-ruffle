@@ -99,11 +99,6 @@
             "best"
           ],
           "description": "Controls the rendering quality (affects MSAA)"
-        },
-        "ruffle.keepActive": {
-          "type": "boolean",
-          "default": true,
-          "description": "Keep the Ruffle player running when switching to another tab, preventing it from restarting. Takes effect after reloading the window."
         }
       }
     }

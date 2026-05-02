@@ -41,15 +41,9 @@ class RuffleEditorProvider implements vscode.CustomReadonlyEditorProvider {
      */
     public static register(context: vscode.ExtensionContext): vscode.Disposable {
         const provider = new RuffleEditorProvider(context);
-        const keepActive = vscode.workspace.getConfiguration('ruffle').get<boolean>('keepActive', true);
         return vscode.window.registerCustomEditorProvider(
             RuffleEditorProvider.viewType,
-            provider,
-            {
-                webviewOptions: {
-                    retainContextWhenHidden: keepActive
-                }
-            }
+            provider
         );
     }
 
