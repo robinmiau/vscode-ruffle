@@ -4,6 +4,16 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump to release'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   release:
@@ -11,8 +21,17 @@ jobs:
     permissions:
       contents: write
     steps:
+    - name: Validate manual dispatch ref
+      if: ${{ github.event_name == 'workflow_dispatch' && github.ref_type != 'branch' }}
+      run: |
+        echo "Manual releases must be dispatched from a branch."
+        exit 1
+
     - name: Checkout
       uses: actions/checkout@v6
+      with:
+        ref: ${{ github.ref }}
+        fetch-depth: 0
 
     - name: Install Node.js
       uses: actions/setup-node@v6
@@ -23,17 +42,34 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Bump version
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      id: version
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        npm version "${{ inputs.version }}"
+        tag="v$(node -p "require('./package.json').version")"
+        echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
     - name: Install vsce
       run: npm install -g @vscode/vsce
 
     - name: Create VSIX package
       run: vsce package
 
+    - name: Push version commit and tag
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: |
+        git push origin HEAD:${{ github.ref_name }}
+        git push origin "refs/tags/${{ steps.version.outputs.tag }}"
+
     - name: Upload VSIX to release
       uses: softprops/action-gh-release@v2
       with:
         files: '*.vsix'
         generate_release_notes: true
+        tag_name: ${{ steps.version.outputs.tag || github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
