@@ -129,7 +129,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.1",
     "webpack": "^5.108.3",
-    "webpack-cli": "^7.1.0"
+    "webpack-cli": "^7.2.2"
   },
   "dependencies": {
     "@ruffle-rs/ruffle": "^0.4.0-nightly.2026.7.1"
