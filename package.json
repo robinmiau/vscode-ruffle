@@ -132,6 +132,6 @@
     "webpack-cli": "^7.2.3"
   },
   "dependencies": {
-    "@ruffle-rs/ruffle": "^0.4.1"
+    "@ruffle-rs/ruffle": "^0.5.0"
   }
 }
